@@ -1,8 +1,11 @@
 package movement;
 
 import java.util.HashSet;
+import java.util.Vector;
+
 import actions.Action;
 import ai.Desire;
+import interfaces.Board;
 import interfaces.Tile;
 
 /*
@@ -12,6 +15,6 @@ import interfaces.Tile;
 public abstract class MouseMovement {
 
 	public abstract Action nextAction(HashSet<Desire> desires, HashSet<Desire> hates, Tile position,
-			Direction orientation);
+			Direction orientation, Vector<Board> history);
 
 }

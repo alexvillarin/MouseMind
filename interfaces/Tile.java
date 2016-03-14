@@ -1,44 +1,48 @@
 package interfaces;
 
-public abstract class Tile {
-	private TileType type;
-	private Object[] things;
-	
+public interface Tile {
 	
 	////////////////////////////////////////////////////////////////////////////////
 	//////////		Position properties
 	////////////////////////////////////////////////////////////////////////////////
 	
 	// Returns the type of this tile
-	public abstract TileType typeOfTile();
+	public TileType typeOfTile();
 	
 	// Checks if current position has the cheese
-	public abstract boolean hasCheese();
+	public boolean hasCheese();
 	
 	// Method called when a mouse is trying to eat the cheese
-	public abstract void eatCheese();
+	public void eatCheese();
+	
+	public int getX();
+	
+	public int getY();
 	
 	
 	////////////////////////////////////////////////////////////////////////////////
 	//////////		Relative positions
 	////////////////////////////////////////////////////////////////////////////////
 
-	public abstract Tile North();
+	public Tile North();
 	
-	public abstract Tile South();
+	public Tile South();
 	
-	public abstract Tile East();
+	public Tile East();
 	
-	public abstract Tile West();
+	public Tile West();
+	
+	public Tile[] neighbours();
 	
 	
 	////////////////////////////////////////////////////////////////////////////////
 	//////////		Mouses methods
 	////////////////////////////////////////////////////////////////////////////////
 	
-	public abstract void addMouse(Color color);
+	public void addMouse(Color color);
 	
-	public abstract void deleteMouse(Color color);
+	public void deleteMouse(Color color);
 	
-	public abstract Color[] getMouses();
+	public Color[] getMouses();
+
 }

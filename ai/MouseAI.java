@@ -1,7 +1,7 @@
 package ai;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Vector;
 
 import actions.Action;
 import interfaces.Board;
@@ -18,7 +18,7 @@ public class MouseAI extends Mouse {
 	private boolean cheese;
 	private HashSet<Desire> desires;
 	private HashSet<Desire> hates;
-	private ArrayList<Board> history;
+	private Vector<Board> history;
 	private MouseMovement movement;
 	private MouseQandA qanda;
 	
@@ -28,7 +28,7 @@ public class MouseAI extends Mouse {
 		super(turnsLeft, color, ControllerType.computer, position, orientation);
 		this.cheese = false;
 		this.desires = desires;
-		this.history = new ArrayList<Board>();
+		this.history = new Vector<Board>();
 		this.history.add(initialBoard);
 		this.movement = movement;
 		this.qanda = qanda;
@@ -39,7 +39,7 @@ public class MouseAI extends Mouse {
 	}
 
 	public Action nextAction() {
-		return movement.nextAction(desires, hates, position, orientation);
+		return movement.nextAction(desires, hates, position, orientation, history);
 	}
 
 	public boolean ask(QuestionType type, Object[] args) {
