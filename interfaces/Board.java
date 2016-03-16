@@ -2,10 +2,10 @@ package interfaces;
 
 import movement.Direction;
 
-public abstract class Board {
-	public Tile[][] board;
+public interface Board {
 	
-	public abstract boolean hasCheesse();
-	public abstract Mouse[] getMouses();
-	public abstract void moveMouse(Mouse mouse, Direction direction);
+	public Tile[][] getBoard();
+	public boolean hasCheesse();
+	public Mouse[] getMouses();
+	public void moveMouse(Mouse mouse, Direction direction);
 }

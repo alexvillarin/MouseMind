@@ -1,10 +1,10 @@
 package movement;
 
-import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Vector;
 
 import actions.Action;
-import ai.Desire;
+import ai.MouseDesire;
 import interfaces.Board;
 import interfaces.Tile;
 
@@ -13,8 +13,15 @@ import interfaces.Tile;
  */
 
 public abstract class MouseMovement {
+	protected PriorityQueue<MouseDesire> desires;
+	protected Tile position;
+	protected Direction orientation;
+	protected Vector<Board> history;
 
-	public abstract Action nextAction(HashSet<Desire> desires, HashSet<Desire> hates, Tile position,
-			Direction orientation, Vector<Board> history);
+	public abstract Action nextAction();
+
+	public void observe(Board board) {
+		history.add(board);
+	}
 
 }

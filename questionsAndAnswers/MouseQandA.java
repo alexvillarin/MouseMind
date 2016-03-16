@@ -6,6 +6,12 @@ import interfaces.Board;
 
 public abstract class MouseQandA {
 	
-	public abstract boolean ask(QuestionType type, Object[] args, Vector<Board> history, boolean cheese);
+	protected Vector<Board> history;
+	
+	public abstract boolean ask(QuestionType type, Object[] args);
+
+	public void observe(Board board) {
+		history.add(board);
+	}
 	
 }
