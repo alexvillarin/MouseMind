@@ -1,8 +1,10 @@
-package mouse.movement.astar;
+package mouse.movement;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
+
 import interfaces.EntityType;
 import interfaces.IBoard;
 import interfaces.IEntity;
@@ -13,17 +15,18 @@ import mouse.action.Action;
 import mouse.action.Eat;
 import mouse.action.Move;
 import mouse.action.Wait;
-import mouse.movement.Direction;
+import mouse.desire.MouseDesire;
+import mouse.movement.astar.AStarMovement;
 
-public class MouseCheeseLover extends AStarMovement {
+public class MouseCheeseFinder extends MouseDesireMovement {
 
-	public static Action nextAction(IPosition position, IBoard current) {
+	public static Action nextAction(IPosition position, IBoard current, PriorityQueue<MouseDesire> desires) {
 		ITile tile = current.getTile(position.getX(), position.getY());
 		for (IEntity element : tile.getThings())
 			if (element.getType() == EntityType.CHEESE)
 				return new Eat();
-		ArrayList<ITile> list = AStarSearch(current.getTile(position.getX(), position.getY()), SearchCheese(current),
-				current);
+		ArrayList<ITile> list = AStarMovement.AStarSearch(current.getTile(position.getX(), position.getY()),
+				SearchCheese(current), current, desires);
 		ITile nextPosition = list.get(list.size() - 2);
 		if (nextPosition.equals(east(position, current)))
 			return new Move(Direction.EAST);

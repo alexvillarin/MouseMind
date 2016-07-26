@@ -7,4 +7,8 @@ public class Action {
 		this.type = type;
 	}
 	
+	public ActionType getType() {
+		return type;
+	}
+	
 }

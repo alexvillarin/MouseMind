@@ -9,5 +9,9 @@ public class Move extends Action {
 		super(ActionType.move);
 		this.dir = dir;
 	}
+	
+	public Direction getDirection() {
+		return dir;
+	}
 
 }

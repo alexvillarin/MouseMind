@@ -2,22 +2,22 @@ package questionsAndAnswers;
 
 import interfaces.IBoard;
 import interfaces.IScientist;
-import interfaces.Mouse;
+import interfaces.MouseType;
 
 public class ScientistAI implements IScientist {
 	private IBoard board;
-	private MouseQandA[] allMouses;
+	private MouseQandA[] allMice;
 	
-	public ScientistAI(IBoard board, MouseQandA[] mouses) {
+	public ScientistAI(IBoard board, MouseQandA[] mice) {
 		this.board = board;
-		this.allMouses = mouses;
+		this.allMice = mice;
 	}
 	
-	public Mouse ScientistInterrogation() {
-		for (MouseQandA mouse : allMouses)
+	public MouseType ScientistInterrogation() {
+		for (MouseQandA mouse : allMice)
 			if (mouse.ask(QuestionType.Cheese, null) == Answer.YES)
 				return mouse.getMouse();
-		return allMouses[(int) Math.round(Math.random() * allMouses.length)].getMouse();
+		return allMice[(int) Math.round(Math.random() * allMice.length)].getMouse();
 	}
 
 }

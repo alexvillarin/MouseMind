@@ -7,7 +7,7 @@ import questionsAndAnswers.QuestionType;
 public interface IMouseAI {
 	public void observe(IBoard board);
 
-	public void observe(IBoard board, Mouse Mouse, Action action, Boolean success);
+	public void observe(IBoard board, MouseType Mouse, Action action, Boolean success, int go);
 
 	public Action nextAction();
 

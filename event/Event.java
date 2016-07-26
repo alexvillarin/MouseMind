@@ -1,20 +1,24 @@
 package event;
 
-import interfaces.Mouse;
+import interfaces.MouseType;
 import mouse.action.Action;
 
 public class Event {
-	private Mouse mouse;
+	private MouseType mouse;
 	private Action action;
-	private Object[] args;
+	private boolean success;
+	private int credibility;
+	private int go;
 	
-	public Event(Mouse mouse, Action action, Object[] args) {
+	public Event(MouseType mouse, Action action, int credibility, boolean success, int go) {
 		this.mouse = mouse;
 		this.action = action;
-		this.args = args;
+		this.credibility = credibility;
+		this.success = success;
+		this.go = go;
 	}
 	
-	public Mouse getMouse() {
+	public MouseType getMouse() {
 		return mouse;
 	}
 	
@@ -22,7 +26,15 @@ public class Event {
 		return action;
 	}
 	
-	public Object[] getArgs() {
-		return args;
+	public int getArgs() {
+		return credibility;
+	}
+	
+	public boolean successfulEvent() {
+		return success;
+	}
+	
+	public int getTurn() {
+		return go;
 	}
 }

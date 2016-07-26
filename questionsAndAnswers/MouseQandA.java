@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import event.Event;
 import interfaces.IBoard;
-import interfaces.Mouse;
+import interfaces.MouseType;
 import mouse.action.Action;
 import mouse.action.Eat;
 import mouse.desire.Desire;
@@ -14,7 +14,7 @@ import mouse.desire.MouseDesire;
 public abstract class MouseQandA {
 	
 	protected PriorityQueue<MouseDesire> desires;
-	private Mouse color;
+	private MouseType color;
 	protected Vector<IBoard> history;
 	private Vector<Event> eventHistory;
 	
@@ -24,17 +24,16 @@ public abstract class MouseQandA {
 		history.add(board);
 	}
 	
-	public void observe(IBoard board, Mouse mouse, Action action, Boolean success) {
+	public void observe(IBoard board, MouseType mouse, Action action, Boolean success, int go) {
+		history.add(board);
+		eventHistory.add(new Event(mouse, action, 100, success, go));
 		if (success) {
-			history.add(board);
-			eventHistory.add(new Event(mouse, action, null));
-			
 			if (mouse.equals(color) && action.equals(new Eat()))
 				desires.remove(new MouseDesire(Desire.Cheese, 0));
 		}
 	}
 	
-	public Mouse getMouse() {
+	public MouseType getMouse() {
 		return color;
 	}
 

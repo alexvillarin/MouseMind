@@ -1,5 +1,5 @@
 package interfaces;
 
-public enum Mouse {
+public enum MouseType {
 	Red, Yellow, Blue, Green;
 }

@@ -8,11 +8,14 @@ import java.util.PriorityQueue;
 import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
+import mouse.desire.Desire;
+import mouse.desire.MouseDesire;
 import mouse.movement.SortedMapSimpleEntry;
 
-public abstract class AStarMovement {
+public class AStarMovement {
 
-	protected static ArrayList<ITile> AStarSearch(ITile position, ITile target, IBoard board) {
+	public static ArrayList<ITile> AStarSearch(ITile position, ITile target, IBoard board,
+			PriorityQueue<MouseDesire> desires) {
 		// The set of nodes already evaluated.
 		HashSet<ITile> closedSet = new HashSet<ITile>();
 
@@ -23,8 +26,7 @@ public abstract class AStarMovement {
 
 		// For each node, which node it can most efficiently be reached from.
 		// If a node can be reached from many nodes, cameFrom will eventually
-		// contain the
-		// most efficient previous step.
+		// contain the most efficient previous step.
 		Hashtable<ITile, ITile> cameFrom = new Hashtable<ITile, ITile>();
 
 		// For each node, the cost of getting from the start node to that node.
@@ -32,8 +34,7 @@ public abstract class AStarMovement {
 		// The cost of going from start to start is zero.
 		gScore.put(position, 0);
 		// For each node, the total cost of getting from the start node to the
-		// goal
-		// by passing by that node. That value is partly known, partly
+		// goal by passing by that node. That value is partly known, partly
 		// heuristic.
 		PriorityQueue<SortedMapSimpleEntry<ITile, Integer>> fScore = new PriorityQueue<SortedMapSimpleEntry<ITile, Integer>>();
 		// For the first node, that value is completely heuristic.
@@ -51,13 +52,12 @@ public abstract class AStarMovement {
 				if (!closedSet.contains(neighbour)) {
 					// The distance from start to goal passing through current
 					// and the neighbour.
-					int tentative_gScore = gScore.get(current) + moveToNeighbour(neighbour);
+					int tentative_gScore = gScore.get(current) + moveToNeighbour(neighbour, desires);
 					if (!openSet.contains(neighbour)) // Discover a new node
 						openSet.add(neighbour);
 					else if (tentative_gScore >= gScore.get(neighbour))
-						continue; // This is not a better path.
+						continue;
 
-					// This path is the best until now. Record it!
 					cameFrom.put(neighbour, current);
 					gScore.put(neighbour, tentative_gScore);
 					fScore.add(new SortedMapSimpleEntry<ITile, Integer>(neighbour,
@@ -68,7 +68,9 @@ public abstract class AStarMovement {
 		return null;
 	}
 
-	private static Integer moveToNeighbour(ITile neighbour) {
+	private static Integer moveToNeighbour(ITile neighbour, PriorityQueue<MouseDesire> desires) {
+		if (desires.contains(new MouseDesire(Desire.NotBreak, 0)))
+			return Integer.MAX_VALUE;
 		return 1;
 	}
 
@@ -87,25 +89,25 @@ public abstract class AStarMovement {
 		return total_path;
 	}
 
-	protected static ITile[] neighbours(IPosition position, IBoard board) {
+	private static ITile[] neighbours(IPosition position, IBoard board) {
 		ITile[] neighbours = { east(position, board), north(position, board), south(position, board),
 				west(position, board) };
 		return neighbours;
 	}
 
-	protected static ITile east(IPosition position, IBoard board) {
+	private static ITile east(IPosition position, IBoard board) {
 		return board.getTile(position.getX() - 1, position.getY());
 	}
 
-	protected static ITile north(IPosition position, IBoard board) {
+	private static ITile north(IPosition position, IBoard board) {
 		return board.getTile(position.getX() - 1, position.getY());
 	}
 
-	protected static ITile south(IPosition position, IBoard board) {
+	private static ITile south(IPosition position, IBoard board) {
 		return board.getTile(position.getX() - 1, position.getY());
 	}
 
-	protected static ITile west(IPosition position, IBoard board) {
+	private static ITile west(IPosition position, IBoard board) {
 		return board.getTile(position.getX() - 1, position.getY());
 	}
 }

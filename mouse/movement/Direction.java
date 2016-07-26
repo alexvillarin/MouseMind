@@ -16,7 +16,7 @@ public enum Direction {
 			return Direction.WEST;
 	}
 	
-	// Return a rendom direction from the array of possible values
+	// Return a random direction from the array of possible values
 	public static Direction random(Direction[] possibleValues) {
 		int value = (int) (Math.random() * possibleValues.length);
 		for (int i = 0; i < possibleValues.length; i++)
