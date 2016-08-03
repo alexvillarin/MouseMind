@@ -3,11 +3,13 @@ package mouse.movement.astar;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
+import interfaces.TileType;
 import mouse.desire.Desire;
 import mouse.desire.MouseDesire;
 import mouse.movement.SortedMapSimpleEntry;
@@ -16,6 +18,7 @@ public class AStarMovement {
 
 	public static ArrayList<ITile> AStarSearch(ITile position, ITile target, IBoard board,
 			PriorityQueue<MouseDesire> desires) {
+		int boardSize = board.getHeight() * board.getWidth() * 2;
 		// The set of nodes already evaluated.
 		HashSet<ITile> closedSet = new HashSet<ITile>();
 
@@ -38,8 +41,9 @@ public class AStarMovement {
 		// heuristic.
 		PriorityQueue<SortedMapSimpleEntry<ITile, Integer>> fScore = new PriorityQueue<SortedMapSimpleEntry<ITile, Integer>>();
 		// For the first node, that value is completely heuristic.
-		fScore.add(new SortedMapSimpleEntry<ITile, Integer>(position,
-				gScore.get(position) + manhattanDistance(position, target)));
+		Integer gScorePos = gScore.get(position);
+		gScorePos = (gScorePos != null) ? gScorePos : boardSize;
+		fScore.add(new SortedMapSimpleEntry<ITile, Integer>(position, gScorePos + manhattanDistance(position, target)));
 
 		while (!openSet.isEmpty()) {
 			ITile current = fScore.poll().getKey();
@@ -49,10 +53,10 @@ public class AStarMovement {
 			openSet.remove(current);
 			closedSet.add(current);
 			for (ITile neighbour : neighbours(current.getPosition(), board)) {
-				if (!closedSet.contains(neighbour)) {
+				if (neighbour != null && !closedSet.contains(neighbour)) {
 					// The distance from start to goal passing through current
 					// and the neighbour.
-					int tentative_gScore = gScore.get(current) + moveToNeighbour(neighbour, desires);
+					int tentative_gScore = gScore.get(current) + moveToNeighbour(neighbour, desires, boardSize);
 					if (!openSet.contains(neighbour)) // Discover a new node
 						openSet.add(neighbour);
 					else if (tentative_gScore >= gScore.get(neighbour))
@@ -68,10 +72,13 @@ public class AStarMovement {
 		return null;
 	}
 
-	private static Integer moveToNeighbour(ITile neighbour, PriorityQueue<MouseDesire> desires) {
-		if (desires.contains(new MouseDesire(Desire.NotBreak, 0)))
-			return Integer.MAX_VALUE;
-		return 1;
+	private static Integer moveToNeighbour(ITile neighbour, PriorityQueue<MouseDesire> desires, int boardSize) {
+		if (neighbour.getType().equals(TileType.OBSTACLE))
+			return boardSize;
+		else if (neighbour.getType().equals(TileType.SHOJI) && desires.contains(new MouseDesire(Desire.NOT_BREAK, 0)))
+			return boardSize;
+		else
+			return 1;
 	}
 
 	private static Integer manhattanDistance(ITile position, ITile target) {
@@ -96,7 +103,7 @@ public class AStarMovement {
 	}
 
 	private static ITile east(IPosition position, IBoard board) {
-		return board.getTile(position.getX() - 1, position.getY());
+		return board.getTile(position.getX(), position.getY() + 1);
 	}
 
 	private static ITile north(IPosition position, IBoard board) {
@@ -104,10 +111,32 @@ public class AStarMovement {
 	}
 
 	private static ITile south(IPosition position, IBoard board) {
-		return board.getTile(position.getX() - 1, position.getY());
+		return board.getTile(position.getX() + 1, position.getY());
 	}
 
 	private static ITile west(IPosition position, IBoard board) {
-		return board.getTile(position.getX() - 1, position.getY());
+		return board.getTile(position.getX(), position.getY() - 1);
+	}
+
+	// Function for testing purposes. It isn't used
+	private static void printPath(PriorityQueue<SortedMapSimpleEntry<ITile, Integer>> fScore) {
+		Iterator<SortedMapSimpleEntry<ITile, Integer>> it = fScore.iterator();
+		while (it.hasNext()) {
+			SortedMapSimpleEntry<ITile, Integer> next = it.next();
+			System.out.println(next);
+		}
+	}
+
+	// Function for testing purposes. It isn't used
+	private static void printPathSorted(PriorityQueue<SortedMapSimpleEntry<ITile, Integer>> fScore) {
+		PriorityQueue<SortedMapSimpleEntry<ITile, Integer>> copy = new PriorityQueue<SortedMapSimpleEntry<ITile, Integer>>();
+		while (!fScore.isEmpty()) {
+			SortedMapSimpleEntry<ITile, Integer> next = fScore.remove();
+			copy.add(next);
+			System.out.println(next);
+		}
+		System.out.println();
+		while (!copy.isEmpty())
+			fScore.add(copy.remove());
 	}
 }

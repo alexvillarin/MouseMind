@@ -1,0 +1,40 @@
+package main;
+
+import interfaces.IBoard;
+import interfaces.ITile;
+
+public class Board implements IBoard {
+	private ITile[][] board;
+	private boolean cheese = true;
+
+	public Board(ITile[][] tiles) {
+		board = new ITile[tiles.length][];
+		for (int i = 0; i < tiles.length; i++) {
+			board[i] = new ITile[tiles[i].length];
+			for (int j = 0; j < tiles[i].length; j++)
+				board[i][j] = tiles[i][j];
+		}
+	}
+
+	public ITile getTile(int x, int y) {
+		if (0 <= x && x < 10 && 0 <= y && y < 10)
+			return board[x][y];
+		return null;
+	}
+
+	public int getWidth() {
+		return 10;
+	}
+
+	public int getHeight() {
+		return 10;
+	}
+
+	public boolean hasCheesse() {
+		return cheese;
+	}
+
+	public void updateTile(int x, int y, ITile tile) {
+		board[x][y] = tile;
+	}
+}

@@ -9,7 +9,7 @@ public class SortedMapSimpleEntry<K, V extends Comparable<V>> extends AbstractMa
 	}
 
 	public int compareTo(SortedMapSimpleEntry<K, V> other) {
-		return other.getValue().compareTo(super.getValue());
+		return super.getValue().compareTo(other.getValue());
 	}
 	
 	public String toString() {

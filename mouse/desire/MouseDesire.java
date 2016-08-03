@@ -15,12 +15,16 @@ public class MouseDesire implements Comparable<MouseDesire> {
 		return weight;
 	}
 	
-	public boolean equals(MouseDesire other) {
-		return other.desire.equals(this.desire);
+	public boolean equals(Object other) {
+		return (other instanceof MouseDesire && desire.equals(((MouseDesire) other).desire));
 	}
 	
 	public int compareTo(MouseDesire other) {
 		return other.weight.compareTo(this.weight);
+	}
+	
+	public String toString() {
+		return desire.toString();
 	}
 	
 	private Desire desire;

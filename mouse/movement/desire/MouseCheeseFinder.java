@@ -1,4 +1,4 @@
-package mouse.movement;
+package mouse.movement.desire;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,34 +10,39 @@ import interfaces.IBoard;
 import interfaces.IEntity;
 import interfaces.IPosition;
 import interfaces.ITile;
+import interfaces.MouseType;
 import interfaces.TileType;
 import mouse.action.Action;
-import mouse.action.Eat;
-import mouse.action.Move;
-import mouse.action.Wait;
 import mouse.desire.MouseDesire;
+import mouse.movement.Direction;
+import mouse.movement.MouseDesireMovement;
 import mouse.movement.astar.AStarMovement;
 
 public class MouseCheeseFinder extends MouseDesireMovement {
+
+	public MouseCheeseFinder(PriorityQueue<MouseDesire> desires,
+			IPosition position, Direction orientation, MouseType color) {
+		super(desires, position, orientation, color);
+	}
 
 	public static Action nextAction(IPosition position, IBoard current, PriorityQueue<MouseDesire> desires) {
 		ITile tile = current.getTile(position.getX(), position.getY());
 		for (IEntity element : tile.getThings())
 			if (element.getType() == EntityType.CHEESE)
-				return new Eat();
+				return Action.EAT;
 		ArrayList<ITile> list = AStarMovement.AStarSearch(current.getTile(position.getX(), position.getY()),
 				SearchCheese(current), current, desires);
 		ITile nextPosition = list.get(list.size() - 2);
 		if (nextPosition.equals(east(position, current)))
-			return new Move(Direction.EAST);
+			return Action.MOVE_EAST;
 		else if (nextPosition.equals(north(position, current)))
-			return new Move(Direction.NORTH);
+			return Action.MOVE_NORTH;
 		else if (nextPosition.equals(south(position, current)))
-			return new Move(Direction.SOUTH);
+			return Action.MOVE_SOUTH;
 		else if (nextPosition.equals(west(position, current)))
-			return new Move(Direction.WEST);
+			return Action.MOVE_WEST;
 		else
-			return new Wait();
+			return Action.WAIT;
 	}
 
 	private static ITile SearchCheese(IBoard board) {

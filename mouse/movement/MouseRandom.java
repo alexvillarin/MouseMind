@@ -1,16 +1,18 @@
 package mouse.movement;
 
+import interfaces.IPosition;
+import interfaces.MouseType;
 import mouse.action.Action;
-import mouse.action.ActionType;
-import mouse.action.Move;
 
 public class MouseRandom extends MouseMovement {
 
+	public MouseRandom(IPosition position, Direction orientation,
+			MouseType color) {
+		super(position, orientation, color);
+	}
+
 	public Action nextAction() {
-		ActionType action = ActionType.random();
-		if (action == ActionType.move)
-			return new Move(Direction.random());
-		return new Action(action);
+		return Action.random();
 	}
 
 }
