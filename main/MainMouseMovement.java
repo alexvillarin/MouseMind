@@ -120,10 +120,10 @@ public class MainMouseMovement {
 		tiles[8][7] = new Tile(8, 7, TileType.SHOJI);
 		tiles[8][8] = new Tile(8, 8, TileType.OBSTACLE);
 
-		tiles[0][0].add(new Entity(0, 0, EntityType.MOUSE));
-		tiles[0][9].add(new Entity(0, 9, EntityType.MOUSE));
-		tiles[9][0].add(new Entity(9, 0, EntityType.MOUSE));
-		tiles[9][9].add(new Entity(9, 9, EntityType.MOUSE));
+		tiles[0][0].add(new Entity(0, 0, EntityType.MOUSE_RED));
+		tiles[0][9].add(new Entity(0, 9, EntityType.MOUSE_BLUE));
+		tiles[9][0].add(new Entity(9, 0, EntityType.MOUSE_GREEN));
+		tiles[9][9].add(new Entity(9, 9, EntityType.MOUSE_YELLOW));
 		tiles[4][5].add(new Entity(4, 5, EntityType.CHEESE));
 		return new Board(tiles);
 	}

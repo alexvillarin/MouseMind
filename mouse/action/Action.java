@@ -3,9 +3,9 @@ package mouse.action;
 import mouse.movement.Direction;
 
 public enum Action {
-	EAT, MOVE_EAST, MOVE_NORTH, MOVE_SOUTH, MOVE_WEST, WAIT;
+	EAT, MOVE_EAST, MOVE_NORTH, MOVE_SOUTH, MOVE_WEST, TALK, WAIT;
 	
-	private static double elements = 3;
+	private static double elements = 4;
 	
 	public static Action move(Direction orientation) {
 		if (orientation.equals(Direction.EAST))
@@ -31,6 +31,8 @@ public enum Action {
 			return MOVE_SOUTH;
 		if (value < 2)
 			return MOVE_WEST;
+		if (value < 3)
+			return TALK;
 		return WAIT;
 		
 	}

@@ -25,7 +25,7 @@ public class MouseAI implements IMouseAI {
 			Direction orientation, IBoard initialBoard, MovementType movement,
 			PriorityQueue<MouseDesire> desires, QandAType qanda) {
 		this.movement = movement.getMouseMovement(desires, position,
-				orientation, color);
+				orientation, color, turnsLeft);
 		this.qanda = qanda.getMouseQandA(color);
 		this.color = color;
 	}

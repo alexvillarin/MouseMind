@@ -17,6 +17,7 @@ import mouse.movement.Direction;
 
 public class MainMouseDesireMovement {
 
+	// Deprecated. Better use MainMouseMovement instead
 	public static void main(String[] args) {
 		PriorityQueue<MouseDesire> desires = initializeDesires();
 		IBoard board = initializeBoard();
@@ -42,7 +43,7 @@ public class MainMouseDesireMovement {
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
 				tiles[i][j] = new Tile(i, j, TileType.EMPTY);
-		tiles[0][0].add(new Entity(0, 0, EntityType.MOUSE));
+		tiles[0][0].add(new Entity(0, 0, EntityType.MOUSE_BLUE));
 		tiles[2][3].add(new Entity(2, 3, EntityType.CHEESE));
 		return new Board(tiles);
 	}

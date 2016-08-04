@@ -10,9 +10,11 @@ import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
 import interfaces.TileType;
+import mouse.desire.Desire;
+import mouse.desire.MouseDesire;
 import mouse.movement.SortedMapSimpleEntry;
 
-public class AStarMovement {
+public class AStarMovementWithoutBreak {
 
 	public static ArrayList<ITile> AStarSearch(ITile position, ITile target, IBoard board) {
 		int boardSize = board.getHeight() * board.getWidth() * 2;
@@ -70,7 +72,7 @@ public class AStarMovement {
 	}
 
 	private static Integer moveToNeighbour(ITile neighbour, int boardSize) {
-		if (neighbour.getType().equals(TileType.OBSTACLE))
+		if (neighbour.getType().equals(TileType.OBSTACLE) || neighbour.getType().equals(TileType.SHOJI))
 			return boardSize;
 		else
 			return 1;
@@ -133,5 +135,11 @@ public class AStarMovement {
 		System.out.println();
 		while (!copy.isEmpty())
 			fScore.add(copy.remove());
+	}
+	
+	// Removes the Not Breaking Shojis desire
+	public static PriorityQueue<MouseDesire> deleteNotBreak(PriorityQueue<MouseDesire> desires) {
+		desires.remove(new MouseDesire(Desire.NOT_BREAK, 0));
+		return desires;
 	}
 }

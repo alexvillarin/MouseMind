@@ -16,8 +16,8 @@ import mouse.movement.MouseDesireMovement;
 public class MouseSprinterWithoutBreak extends MouseDesireMovement {
 
 	public MouseSprinterWithoutBreak(PriorityQueue<MouseDesire> desires, IPosition position, Direction orientation,
-			MouseType color) {
-		super(desires, position, orientation, color);
+			MouseType color, int turnsLeft) {
+		super(desires, position, orientation, color, turnsLeft);
 	}
 
 	public static Action nextAction(Direction orientation, IPosition position, IBoard board) {

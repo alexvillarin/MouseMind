@@ -2,6 +2,7 @@ package mouse.movement;
 
 import java.util.AbstractMap;
 
+@SuppressWarnings("serial")
 public class SortedMapSimpleEntry<K, V extends Comparable<V>> extends AbstractMap.SimpleEntry<K, V> implements Comparable<SortedMapSimpleEntry<K, V>> {
 	
 	public SortedMapSimpleEntry(K arg0, V arg1) {

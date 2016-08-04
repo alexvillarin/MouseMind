@@ -1,6 +1,7 @@
 package main;
 
 import interfaces.IBoard;
+import interfaces.IPosition;
 import interfaces.ITile;
 
 public class Board implements IBoard {
@@ -19,6 +20,12 @@ public class Board implements IBoard {
 	public ITile getTile(int x, int y) {
 		if (0 <= x && x < 10 && 0 <= y && y < 10)
 			return board[x][y];
+		return null;
+	}
+
+	public ITile getTile(IPosition position) {
+		if (0 <= position.getX() && position.getX() < 10 && 0 <= position.getY() && position.getY() < 10)
+			return board[position.getX()][position.getY()];
 		return null;
 	}
 

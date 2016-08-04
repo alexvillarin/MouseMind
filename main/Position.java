@@ -2,6 +2,7 @@ package main;
 
 import interfaces.IBoard;
 import interfaces.IPosition;
+import interfaces.ITile;
 
 public class Position implements IPosition {
 	private int X;
@@ -21,19 +22,19 @@ public class Position implements IPosition {
 	}
 	
 	public IPosition east(IBoard board) {
-		return board.getTile(X, Y + 1).getPosition();
+		return getPosition(board.getTile(X, Y + 1));
 	}
 
 	public IPosition north(IBoard board) {
-		return board.getTile(X - 1, Y).getPosition();
+		return getPosition(board.getTile(X - 1, Y));
 	}
 
 	public IPosition south(IBoard board) {
-		return board.getTile(X + 1, Y).getPosition();
+		return getPosition(board.getTile(X + 1, Y));
 	}
 
 	public IPosition west(IBoard board) {
-		return board.getTile(X, Y - 1).getPosition();
+		return getPosition(board.getTile(X, Y - 1));
 	}
 
 	public boolean equals(Object other) {
@@ -42,5 +43,12 @@ public class Position implements IPosition {
 
 	public String toString() {
 		return "X: " + X + ", Y: " + Y;
+	}
+	
+	private IPosition getPosition(ITile tile) {
+		if (tile != null)
+			return tile.getPosition();
+		else
+			return null;
 	}
 }

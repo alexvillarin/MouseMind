@@ -5,6 +5,7 @@ import java.util.Vector;
 import event.Event;
 import interfaces.IBoard;
 import interfaces.IPosition;
+import interfaces.ITile;
 import interfaces.MouseType;
 import mouse.action.Action;
 
@@ -29,6 +30,22 @@ public abstract class MouseMovement {
 	}
 
 	public abstract Action nextAction();
+	
+	protected static ITile east(IPosition position, IBoard board) {
+		return board.getTile(position.getX(), position.getY() + 1);
+	}
+
+	protected static ITile north(IPosition position, IBoard board) {
+		return board.getTile(position.getX() - 1, position.getY());
+	}
+
+	protected static ITile south(IPosition position, IBoard board) {
+		return board.getTile(position.getX() + 1, position.getY());
+	}
+
+	protected static ITile west(IPosition position, IBoard board) {
+		return board.getTile(position.getX(), position.getY() - 1);
+	}
 
 	public void observe(IBoard board) {
 		history.add(board);
