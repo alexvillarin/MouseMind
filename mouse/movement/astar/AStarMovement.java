@@ -44,7 +44,7 @@ public class AStarMovement {
 
 		while (!openSet.isEmpty()) {
 			ITile current = fScore.poll().getKey();
-			if (current == target)
+			if (current.equals(target))
 				return getPath(cameFrom, target);
 
 			openSet.remove(current);
@@ -69,16 +69,19 @@ public class AStarMovement {
 		return null;
 	}
 
-	private static Integer moveToNeighbour(ITile neighbour, int boardSize) {
+	private static int moveToNeighbour(ITile neighbour, int boardSize) {
 		if (neighbour.getType().equals(TileType.OBSTACLE))
 			return boardSize;
 		else
 			return 1;
 	}
 
-	private static Integer manhattanDistance(ITile position, ITile target) {
-		return Math.abs(position.getPosition().getX() - target.getPosition().getX())
-				+ Math.abs(position.getPosition().getY() - target.getPosition().getY());
+	public static int manhattanDistance(ITile position, ITile target) {
+		if (position == null || target == null)
+			return Integer.MAX_VALUE;
+		else
+			return Math.abs(position.getPosition().getX() - target.getPosition().getX())
+					+ Math.abs(position.getPosition().getY() - target.getPosition().getY());
 	}
 
 	private static ArrayList<ITile> getPath(Hashtable<ITile, ITile> cameFrom, ITile current) {

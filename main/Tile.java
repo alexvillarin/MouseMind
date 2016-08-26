@@ -23,6 +23,11 @@ public class Tile implements ITile {
 		return type;
 	}
 
+	public void breakShoji() {
+		if (type.equals(TileType.SHOJI))
+			type = TileType.BROKEN_SHOJI;
+	}
+
 	public List<IEntity> getThings() {
 		return things;
 	}
@@ -34,17 +39,16 @@ public class Tile implements ITile {
 	public void add(IEntity f) {
 		things.add(f);
 	}
-	
+
 	public void remove(IEntity f) {
-		this.remove(f);
+		things.remove(f);
 	}
-	
+
 	public boolean equals(Object other) {
 		return (other instanceof Tile && position.equals(((Tile) other).position));
 	}
-	
+
 	public String toString() {
 		return position.toString();
 	}
-
 }

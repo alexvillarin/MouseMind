@@ -1,5 +1,5 @@
 package interfaces;
 
 public enum TileType {
-	BROKENSHOJI, EMPTY, OBSTACLE, SHOJI, UNKNOWN;
+	BROKEN_SHOJI, EMPTY, OBSTACLE, SHOJI, UNKNOWN;
 }

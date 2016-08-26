@@ -46,7 +46,7 @@ public class AStarMovementWithoutBreak {
 
 		while (!openSet.isEmpty()) {
 			ITile current = fScore.poll().getKey();
-			if (current == target)
+			if (current.equals(target))
 				return getPath(cameFrom, target);
 
 			openSet.remove(current);
@@ -71,14 +71,14 @@ public class AStarMovementWithoutBreak {
 		return null;
 	}
 
-	private static Integer moveToNeighbour(ITile neighbour, int boardSize) {
+	private static int moveToNeighbour(ITile neighbour, int boardSize) {
 		if (neighbour.getType().equals(TileType.OBSTACLE) || neighbour.getType().equals(TileType.SHOJI))
 			return boardSize;
 		else
 			return 1;
 	}
 
-	private static Integer manhattanDistance(ITile position, ITile target) {
+	public static int manhattanDistance(ITile position, ITile target) {
 		return Math.abs(position.getPosition().getX() - target.getPosition().getX())
 				+ Math.abs(position.getPosition().getY() - target.getPosition().getY());
 	}

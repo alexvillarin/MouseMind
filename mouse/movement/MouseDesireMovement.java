@@ -36,6 +36,7 @@ public class MouseDesireMovement extends MouseMovement {
 	}
 
 	public Action nextAction() {
+		turnsLeft--;
 		MouseDesire desireToAchieve = desires.peek();
 		if (desireToAchieve == null || desireToAchieve.getDesire().equals(Desire.REST))
 			return Action.WAIT;
@@ -71,7 +72,11 @@ public class MouseDesireMovement extends MouseMovement {
 				notBreak = true;
 		}
 		AbstractMap.SimpleEntry<Desire, ITile> result = getBestDesire(list);
-		return getActionForDesire(result.getKey(), result.getValue(), notBreak);
+		if (result.getValue() == null) {
+			desires.remove(new MouseDesire(result.getKey(), 0));
+			return nextAction();
+		} else
+			return getActionForDesire(result.getKey(), result.getValue(), notBreak);
 
 	}
 
@@ -93,7 +98,7 @@ public class MouseDesireMovement extends MouseMovement {
 		}
 		MouseDesire queueHead = list.peek();
 		if (queueHead != null && queueHead.getDesire().equals(Desire.AVOID_PUNISHMENT)) {
-			if (manhattanDistance(position, home) >= turnsLeft)
+			if (manhattanDistance(position, home) >= turnsLeft + 1)
 				return goHome(notBreak);
 			else {
 				list.remove();
@@ -134,7 +139,7 @@ public class MouseDesireMovement extends MouseMovement {
 						&& Math.abs(avoidPunishment.getWeight() - next.getWeight()) < 50)
 					notBreak = true;
 			}
-			if (manhattanDistance(position, home) >= turnsLeft)
+			if (manhattanDistance(position, home) >= turnsLeft + 1)
 				return goHome(notBreak);
 			else if (!list.isEmpty()) {
 				AbstractMap.SimpleEntry<Desire, ITile> result = getBestDesire(list);
@@ -165,7 +170,7 @@ public class MouseDesireMovement extends MouseMovement {
 		}
 		MouseDesire queueHead = list.peek();
 		if (queueHead != null && queueHead.getDesire().equals(Desire.AVOID_PUNISHMENT)) {
-			if (manhattanDistance(position, home) >= turnsLeft)
+			if (manhattanDistance(position, home) >= turnsLeft + 1)
 				return goHome(true);
 			else {
 				list.remove();
@@ -257,7 +262,7 @@ public class MouseDesireMovement extends MouseMovement {
 
 		Iterator<ITile> it = possibleDestinations.iterator();
 		int distance = Integer.MAX_VALUE;
-		ITile finalTile = it.next();
+		ITile finalTile = null;
 		while (it.hasNext()) {
 			ITile next = it.next();
 			int nextDistance = manhattanDistance(position, next);
@@ -318,12 +323,17 @@ public class MouseDesireMovement extends MouseMovement {
 			return Action.WAIT;
 	}
 
-	private static Integer manhattanDistance(IPosition position, ITile target) {
-		return Math.abs(position.getX() - target.getPosition().getX())
-				+ Math.abs(position.getY() - target.getPosition().getY());
+	public static int manhattanDistance(IPosition position, ITile target) {
+		if (position == null || target == null)
+			return Integer.MAX_VALUE;
+		else
+			return Math.abs(position.getX() - target.getPosition().getX())
+					+ Math.abs(position.getY() - target.getPosition().getY());
 	}
 
-	private int manhattanDistance(IPosition pos1, IPosition pos2) {
+	public static int manhattanDistance(IPosition pos1, IPosition pos2) {
+		if (pos1 == null || pos2 == null)
+			return Integer.MAX_VALUE;
 		return Math.abs(pos1.getX() - pos2.getX()) + Math.abs(pos1.getY() - pos2.getY());
 	}
 

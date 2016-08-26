@@ -37,4 +37,8 @@ public class Event {
 	public int getTurn() {
 		return go;
 	}
+	
+	public String toString() {
+		return mouse + " " + action + " " + go;
+	}
 }

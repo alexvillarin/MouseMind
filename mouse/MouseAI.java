@@ -13,8 +13,8 @@ import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 import mouse.movement.MouseMovement;
 import questionsAndAnswers.Answer;
-import questionsAndAnswers.MouseQandA;
 import questionsAndAnswers.QuestionType;
+import questionsAndAnswers.mouse.MouseQandA;
 
 public class MouseAI implements IMouseAI {
 	private MouseMovement movement;
@@ -26,7 +26,7 @@ public class MouseAI implements IMouseAI {
 			PriorityQueue<MouseDesire> desires, QandAType qanda) {
 		this.movement = movement.getMouseMovement(desires, position,
 				orientation, color, turnsLeft);
-		this.qanda = qanda.getMouseQandA(color);
+		this.qanda = qanda.getMouseQandA(color, position);
 		this.color = color;
 	}
 
@@ -51,5 +51,9 @@ public class MouseAI implements IMouseAI {
 	
 	public MouseType getMouse() {
 		return color;
+	}
+
+	public IPosition getInitialPosition() {
+		return qanda.getInitialPosition();
 	}
 }

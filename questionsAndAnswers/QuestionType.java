@@ -1,5 +1,5 @@
 package questionsAndAnswers;
 
 public enum QuestionType {
-	Cheese, Mouse;
+	EAT_CHEESE, MOUSE_IN_TILE;
 }

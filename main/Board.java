@@ -44,4 +44,14 @@ public class Board implements IBoard {
 	public void updateTile(int x, int y, ITile tile) {
 		board[x][y] = tile;
 	}
+	
+	public String toString() {
+		String str = "";
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++)
+				str += board[i][j] + " ";
+			str+= "\n";
+		}
+		return str;
+	}
 }
