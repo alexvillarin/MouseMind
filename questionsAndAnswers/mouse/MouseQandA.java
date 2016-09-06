@@ -16,7 +16,7 @@ public abstract class MouseQandA {
 	
 	protected PriorityQueue<MouseDesire> desires;
 	protected MouseType color;
-	private IPosition initialPosition;
+	protected IPosition initialPosition;
 	protected Vector<IBoard> history;
 	protected Vector<Event> eventHistory;
 	

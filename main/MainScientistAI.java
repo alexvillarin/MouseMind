@@ -55,8 +55,8 @@ public class MainScientistAI {
 				for (int k = 0; k < mice; k++) {
 					ai[k].observe(board, mouse, nextAction, success, i * mice + j + 1);
 				}
-				System.out.println(mouse + ": " + nextAction);
-				// System.out.println(mouse + ": " + position[j]);
+				// System.out.println(mouse + ": " + nextAction);
+				System.out.println(mouse + ": " + position[j]);
 			}
 		}
 
@@ -69,7 +69,7 @@ public class MainScientistAI {
 
 	private static PriorityQueue<MouseDesire> initializeDesires1() {
 		MouseDesire eat = new MouseDesire(Desire.CHEESE, 100);
-		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
+		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 90);
 		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
@@ -80,7 +80,7 @@ public class MainScientistAI {
 
 	private static PriorityQueue<MouseDesire> initializeDesires2() {
 		MouseDesire walk = new MouseDesire(Desire.WALK, 80);
-		MouseDesire eat = new MouseDesire(Desire.CHEESE, 70);
+		MouseDesire eat = new MouseDesire(Desire.SEE_BLUE, 70);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
 		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
@@ -128,7 +128,7 @@ public class MainScientistAI {
 		tiles[1][8] = new Tile(1, 8, TileType.OBSTACLE);
 		tiles[2][1] = new Tile(2, 1, TileType.OBSTACLE);
 		tiles[2][8] = new Tile(2, 8, TileType.OBSTACLE);
-		tiles[3][0] = new Tile(3, 0, TileType.SHOJI);
+		//tiles[3][0] = new Tile(3, 0, TileType.SHOJI);
 		tiles[3][1] = new Tile(3, 1, TileType.OBSTACLE);
 		tiles[3][8] = new Tile(3, 8, TileType.OBSTACLE);
 		tiles[6][8] = new Tile(6, 8, TileType.OBSTACLE);
@@ -194,6 +194,8 @@ public class MainScientistAI {
 				board.getTile(4, 5).remove(new Entity(4, 5, EntityType.CHEESE));
 				return true;
 			}
+		else if (nextAction.equals(Action.TALK))
+			return true;
 		else
 			return false;
 	}

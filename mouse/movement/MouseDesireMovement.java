@@ -343,7 +343,21 @@ public class MouseDesireMovement extends MouseMovement {
 		if (success && mouse.equals(color)) {
 			if (action.equals(Action.EAT))
 				desires.remove(new MouseDesire(Desire.CHEESE, 0));
-			else if (action.equals(Action.MOVE_EAST)) {
+			else if (action.equals(Action.TALK)) {
+				Iterator<IEntity> it = board.getTile(this.position).getThings().iterator();
+				while (it.hasNext()) {
+					IEntity next = it.next();
+					if (next.getType().equals(EntityType.MOUSE_BLUE) && !color.equals(MouseType.BLUE))
+						desires.remove(new MouseDesire(Desire.SEE_BLUE, 0));
+					else if (next.getType().equals(EntityType.MOUSE_GREEN) && !color.equals(MouseType.GREEN))
+						desires.remove(new MouseDesire(Desire.SEE_GREEN, 0));
+					else if (next.getType().equals(EntityType.MOUSE_RED) && !color.equals(MouseType.RED))
+						desires.remove(new MouseDesire(Desire.SEE_RED, 0));
+					else if (next.getType().equals(EntityType.MOUSE_YELLOW) && !color.equals(MouseType.YELLOW))
+						desires.remove(new MouseDesire(Desire.SEE_YELLOW, 0));
+				}
+				desires.remove(new MouseDesire(Desire.CHEESE, 0));
+			} else if (action.equals(Action.MOVE_EAST)) {
 				position = position.east(history.lastElement());
 				orientation = Direction.EAST;
 			} else if (action.equals(Action.MOVE_NORTH)) {

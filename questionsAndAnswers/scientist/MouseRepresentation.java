@@ -12,7 +12,7 @@ public class MouseRepresentation implements Comparable<MouseRepresentation> {
 	private MouseAI mouseAI;
 	private double confidence;
 	private static final double increaseFactor = 1.1;
-	private static final double reduceFactor = 0.9;
+	private static final double reduceFactor = 0.8;
 	private ArrayList<ITile> tilesVisited;
 	private boolean suspicious;
 	private Double charge;
