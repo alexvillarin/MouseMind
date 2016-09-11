@@ -8,6 +8,7 @@ import interfaces.IPosition;
 import interfaces.ITile;
 import interfaces.TileType;
 
+// A example implementation for testing purposes of the interface ITile
 public class Tile implements ITile {
 
 	private TileType type;

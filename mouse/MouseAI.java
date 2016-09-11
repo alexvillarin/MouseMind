@@ -46,7 +46,12 @@ public class MouseAI implements IMouseAI {
 	}
 
 	public Answer ask(QuestionType type, Object[] args) {
-		return qanda.ask(type, args);
+		System.out.print(type + ", ");
+		for (int i = 0; i < args.length; i++)
+			System.out.print(args[i] + ", ");
+		Answer ret = qanda.ask(type, args);
+		System.out.println(ret);
+		return ret;
 	}
 	
 	public MouseType getMouse() {

@@ -15,7 +15,7 @@ import mouse.movement.SortedMapSimpleEntry;
 public class AStarMovement {
 
 	public static ArrayList<ITile> AStarSearch(ITile position, ITile target, IBoard board) {
-		int boardSize = board.getHeight() * board.getWidth() * 2;
+		int boardSize = board.getHeight() * board.getWidth();
 		// The set of nodes already evaluated.
 		HashSet<ITile> closedSet = new HashSet<ITile>();
 
@@ -71,7 +71,7 @@ public class AStarMovement {
 
 	private static int moveToNeighbour(ITile neighbour, int boardSize) {
 		if (neighbour.getType().equals(TileType.OBSTACLE))
-			return boardSize;
+			return 2 * boardSize;
 		else
 			return 1;
 	}

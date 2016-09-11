@@ -16,7 +16,7 @@ import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 import questionsAndAnswers.scientist.ScientistAI;
 
-public class MainScientistAI {
+public class MainScientistAITest3 {
 
 	private static final int turnsLeft = 20;
 	private static final int mice = 4;
@@ -44,7 +44,7 @@ public class MainScientistAI {
 				desiresYellow, QandAType.LYING);
 
 		for (int j = 0; j < mice; j++)
-			ai[j].observe(board);
+			ai[j].observe(initialBoard);
 
 		for (int i = 0; i < turnsLeft; i++) {
 			System.out.println("Turno: " + (i + 1));
@@ -55,8 +55,8 @@ public class MainScientistAI {
 				for (int k = 0; k < mice; k++) {
 					ai[k].observe(board, mouse, nextAction, success, i * mice + j + 1);
 				}
-				// System.out.println(mouse + ": " + nextAction);
-				System.out.println(mouse + ": " + position[j]);
+				System.out.println(mouse + ": " + nextAction);
+				// System.out.println(mouse + ": " + position[j]);
 			}
 		}
 
@@ -80,7 +80,7 @@ public class MainScientistAI {
 
 	private static PriorityQueue<MouseDesire> initializeDesires2() {
 		MouseDesire walk = new MouseDesire(Desire.WALK, 80);
-		MouseDesire eat = new MouseDesire(Desire.SEE_BLUE, 70);
+		MouseDesire eat = new MouseDesire(Desire.CHEESE, 70);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
 		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
@@ -118,34 +118,35 @@ public class MainScientistAI {
 		for (int i = 0; i < 10; i++)
 			for (int j = 0; j < 10; j++)
 				tiles[i][j] = new Tile(i, j, TileType.EMPTY);
-
-		tiles[0][3] = new Tile(0, 3, TileType.SHOJI);
+		
+		tiles[6][0] = new Tile(6, 0, TileType.SHOJI);
 		tiles[1][1] = new Tile(1, 1, TileType.OBSTACLE);
-		tiles[1][2] = new Tile(1, 2, TileType.OBSTACLE);
-		tiles[1][3] = new Tile(1, 3, TileType.OBSTACLE);
-		tiles[1][6] = new Tile(1, 6, TileType.SHOJI);
-		tiles[1][7] = new Tile(1, 7, TileType.OBSTACLE);
-		tiles[1][8] = new Tile(1, 8, TileType.OBSTACLE);
 		tiles[2][1] = new Tile(2, 1, TileType.OBSTACLE);
-		tiles[2][8] = new Tile(2, 8, TileType.OBSTACLE);
 		tiles[3][1] = new Tile(3, 1, TileType.OBSTACLE);
-		tiles[3][8] = new Tile(3, 8, TileType.OBSTACLE);
-		tiles[6][8] = new Tile(6, 8, TileType.OBSTACLE);
-		tiles[7][0] = new Tile(7, 0, TileType.OBSTACLE);
+		tiles[6][1] = new Tile(6, 1, TileType.SHOJI);
 		tiles[7][1] = new Tile(7, 1, TileType.OBSTACLE);
-		tiles[7][8] = new Tile(7, 8, TileType.OBSTACLE);
 		tiles[8][1] = new Tile(8, 1, TileType.OBSTACLE);
+		tiles[1][2] = new Tile(1, 2, TileType.OBSTACLE);
 		tiles[8][2] = new Tile(8, 2, TileType.OBSTACLE);
+		tiles[1][3] = new Tile(1, 3, TileType.OBSTACLE);
 		tiles[8][3] = new Tile(8, 3, TileType.OBSTACLE);
-		tiles[8][6] = new Tile(8, 6, TileType.SHOJI);
-		tiles[8][7] = new Tile(8, 7, TileType.SHOJI);
+		tiles[9][3] = new Tile(9, 3, TileType.SHOJI);
+		tiles[8][6] = new Tile(8, 6, TileType.OBSTACLE);
+		tiles[0][7] = new Tile(0, 7, TileType.OBSTACLE);
+		tiles[1][7] = new Tile(1, 7, TileType.OBSTACLE);
+		tiles[8][7] = new Tile(8, 7, TileType.OBSTACLE);
+		tiles[1][8] = new Tile(1, 8, TileType.OBSTACLE);
+		tiles[2][8] = new Tile(2, 8, TileType.OBSTACLE);
+		tiles[3][8] = new Tile(3, 8, TileType.OBSTACLE);
+		tiles[6][8] = new Tile(6, 8, TileType.SHOJI);
+		tiles[7][8] = new Tile(7, 8, TileType.SHOJI);
 		tiles[8][8] = new Tile(8, 8, TileType.OBSTACLE);
 
 		tiles[0][0].add(new Entity(0, 0, EntityType.MOUSE_BLUE));
 		tiles[0][9].add(new Entity(0, 9, EntityType.MOUSE_GREEN));
 		tiles[9][0].add(new Entity(9, 0, EntityType.MOUSE_RED));
 		tiles[9][9].add(new Entity(9, 9, EntityType.MOUSE_YELLOW));
-		tiles[4][5].add(new Entity(4, 5, EntityType.CHEESE));
+		tiles[4][4].add(new Entity(4, 4, EntityType.CHEESE));
 		return new Board(tiles);
 	}
 
@@ -187,10 +188,10 @@ public class MainScientistAI {
 				return true;
 			}
 		else if (nextAction.equals(Action.EAT))
-			if (position[j].getX() != 4 || position[j].getY() != 5)
+			if (position[j].getX() != 4 || position[j].getY() != 4)
 				return false;
 			else {
-				board.getTile(4, 5).remove(new Entity(4, 5, EntityType.CHEESE));
+				board.getTile(4, 4).remove(new Entity(4, 4, EntityType.CHEESE));
 				return true;
 			}
 		else if (nextAction.equals(Action.TALK))

@@ -49,7 +49,7 @@ public class MouseDesireMovement extends MouseMovement {
 		} else if (desireToAchieve.getDesire().equals(Desire.WALK)) {
 			return desireWalk(desireToAchieve);
 		} else if (desireToAchieve.getDesire().equals(Desire.AVOID_PUNISHMENT)) {
-			return desireAvoidPunishment();
+			return desireGoBackHome();
 		} else if (desireToAchieve.getDesire().equals(Desire.NOT_BREAK)) {
 			return desireNotBreak();
 		}
@@ -112,12 +112,18 @@ public class MouseDesireMovement extends MouseMovement {
 		} else if (!list.isEmpty()) {
 			ArrayList<MouseDesire> listArray = new ArrayList<MouseDesire>(list);
 			AbstractMap.SimpleEntry<Desire, ITile> result = getBestDesire(listArray);
-			return getActionForDesire(result.getKey(), result.getValue(), notBreak);
+			if (result.getValue() != null)
+				return getActionForDesire(result.getKey(), result.getValue(), notBreak);
+			else {
+				while (!list.isEmpty())
+					desires.remove(list.poll());
+				return goHome(notBreak);
+			}
 		} else
 			return MouseSprinter.nextAction(orientation, position, history.lastElement());
 	}
 
-	private Action desireAvoidPunishment() {
+	private Action desireGoBackHome() {
 		MouseDesire avoidPunishment = desires.poll();
 		MouseDesire secondDesire = desires.peek();
 		if (secondDesire == null || secondDesire.equals(Desire.REST))
@@ -241,7 +247,7 @@ public class MouseDesireMovement extends MouseMovement {
 	}
 
 	private double getNextCost(int weight, int md) {
-		IBoard board = history.lastElement();
+		IBoard board = history.firstElement();
 		int maxMD = board.getWidth() + board.getHeight();
 		return (100 - weight) / 100 * 0.6 + md / maxMD * 0.4;
 	}

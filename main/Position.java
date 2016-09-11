@@ -4,6 +4,7 @@ import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
 
+// A example implementation for testing purposes of the interface IPosition
 public class Position implements IPosition {
 	private int X;
 	private int Y;

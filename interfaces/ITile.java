@@ -7,7 +7,7 @@ public interface ITile {
 	// Returns the type of this tile
 	public TileType getType();
 	
-	// 
+	// Breaks a shoji
 	public void breakShoji();
 	
 	// Return the things on the tile
@@ -21,5 +21,4 @@ public interface ITile {
 
 	// Removes an entity from the tile
 	public void remove(IEntity f);
-
 }

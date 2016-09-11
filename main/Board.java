@@ -4,6 +4,7 @@ import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
 
+// A example implementation for testing purposes of the interface IBoard
 public class Board implements IBoard {
 	private ITile[][] board;
 	private boolean cheese = true;
@@ -44,13 +45,13 @@ public class Board implements IBoard {
 	public void updateTile(int x, int y, ITile tile) {
 		board[x][y] = tile;
 	}
-	
+
 	public String toString() {
 		String str = "";
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++)
 				str += board[i][j] + " ";
-			str+= "\n";
+			str += "\n";
 		}
 		return str;
 	}

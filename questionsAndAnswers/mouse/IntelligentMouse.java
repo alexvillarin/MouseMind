@@ -17,6 +17,7 @@ import questionsAndAnswers.QuestionType;
 
 public class IntelligentMouse extends MouseQandA {
 
+	private boolean thought;
 	private boolean guilty;
 	private boolean cheeseEaten;
 	private MouseType mostProbableGuilty;
@@ -24,6 +25,7 @@ public class IntelligentMouse extends MouseQandA {
 
 	public IntelligentMouse(MouseType color, IPosition position) {
 		super(color, position);
+		thought = false;
 	}
 
 	public void getConclusions() {
@@ -31,6 +33,7 @@ public class IntelligentMouse extends MouseQandA {
 		getWhoAteCheese();
 		if (!cheeseEaten)
 			getMicePositions();
+		thought = true;
 	}
 
 	private void getCheeseTile() {
@@ -96,6 +99,8 @@ public class IntelligentMouse extends MouseQandA {
 	}
 
 	public Answer ask(QuestionType type, Object[] args) {
+		if (!thought)
+			getConclusions();
 		if (type.equals(QuestionType.EAT_CHEESE)) {
 			MouseType mouse = (MouseType) args[0];
 			return askForCheese(mouse);
@@ -132,16 +137,19 @@ public class IntelligentMouse extends MouseQandA {
 			ArrayList<ITile> list = AStarMovement.AStarSearch(initialTile, cheeseTile, history.lastElement());
 			if (list.contains(tile))
 				return Answer.NO;
-			// The sicentist is asking for a tile very far
-			int tileDistance = AStarMovement.manhattanDistance(initialTile, cheeseTile);
-			if (tileDistance > cheeseDistance / 2)
-				return Answer.SILENCE;
-			// The scientist is asking for a close tile
+			// The scientist is asking for other tile
 			Iterator<IBoard> it = history.iterator();
 			while (it.hasNext()) {
 				IBoard next = it.next();
-				if (next.getTile(tile.getPosition()).getThings().contains(mouse))
-					return Answer.YES;
+				if (next.getTile(tile.getPosition()).getThings().contains(mouse)) {
+					// The sicentist is asking for a tile very far
+					int tileDistance = AStarMovement.manhattanDistance(initialTile, cheeseTile);
+					if (tileDistance > cheeseDistance / 2)
+						return Answer.SILENCE;
+					else // The scientist is asking for a close tile
+						return Answer.YES;
+				}
+
 			}
 			return Answer.NO;
 		} else {

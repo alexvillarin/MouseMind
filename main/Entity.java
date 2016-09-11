@@ -4,6 +4,7 @@ import interfaces.EntityType;
 import interfaces.IEntity;
 import interfaces.IPosition;
 
+// A example implementation for testing purposes of the interface IEntity
 public class Entity implements IEntity {
 	private IPosition position;
 	private EntityType type;
