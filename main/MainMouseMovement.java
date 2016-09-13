@@ -15,11 +15,16 @@ import mouse.desire.Desire;
 import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 
+/*
+ * Class to check that the mouse choose the correct actions to achieve their desires and 
+ * it can update its knowledge correctly
+ */
 public class MainMouseMovement {
 
 	private static final int turnsLeft = 20;
 	private static final int mice = 4;
 
+	// Better use MainScientistAI instead
 	public static void main(String[] args) {
 		PriorityQueue<MouseDesire> desiresRed = initializeDesires1();
 		PriorityQueue<MouseDesire> desiresBlue = initializeDesires2();
@@ -130,7 +135,7 @@ public class MainMouseMovement {
 		tiles[4][5].add(new Entity(4, 5, EntityType.CHEESE));
 		return new Board(tiles);
 	}
-	
+
 	private static boolean successfulMove(Action nextAction, IPosition[] position, int j) {
 		if (nextAction.equals(Action.MOVE_EAST))
 			if (position[j].getY() == 9)
@@ -145,21 +150,20 @@ public class MainMouseMovement {
 			else {
 				position[j] = new Position(position[j].getX() - 1, position[j].getY());
 				return true;
-			} 
+			}
 		else if (nextAction.equals(Action.MOVE_SOUTH))
 			if (position[j].getX() == 9)
 				return false;
 			else {
 				position[j] = new Position(position[j].getX() + 1, position[j].getY());
 				return true;
-			} 
-		else 
-			if (position[j].getY() == 0)
-				return false;
-			else {
-				position[j] = new Position(position[j].getX(), position[j].getY() - 1);
-				return true;
-			} 
+			}
+		else if (position[j].getY() == 0)
+			return false;
+		else {
+			position[j] = new Position(position[j].getX(), position[j].getY() - 1);
+			return true;
+		}
 	}
 
 }

@@ -15,9 +15,12 @@ import mouse.desire.Desire;
 import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 
+/*
+ * Class to check that the mouse choose the correct actions to achieve their desires
+ */
 public class MainMouseDesireMovement {
 
-	// Deprecated. Better use MainMouseMovement instead
+	// Better use MainMouseMovement instead
 	public static void main(String[] args) {
 		PriorityQueue<MouseDesire> desires = initializeDesires();
 		IBoard board = initializeBoard();

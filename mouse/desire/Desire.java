@@ -1,5 +1,8 @@
 package mouse.desire;
 
+/*
+ * Desires that lead the mice actions
+ */
 public enum Desire {
-	AVOID_PUNISHMENT, CHEESE, NOT_BREAK, REST, SEE_BLUE, SEE_GREEN, SEE_RED, SEE_YELLOW, WALK;
+	GO_BACK_HOME, CHEESE, NOT_BREAK, REST, SEE_BLUE, SEE_GREEN, SEE_RED, SEE_YELLOW, WALK;
 }

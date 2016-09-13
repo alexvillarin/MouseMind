@@ -21,6 +21,10 @@ import mouse.movement.astar.AStarMovementWithoutBreak;
 import mouse.movement.desire.MouseSprinter;
 import mouse.movement.desire.MouseSprinterWithoutBreak;
 
+/*
+ * This class must manage the actions of a mouse based on its desires. It implements
+ * the abstract class MouseMovement
+ */
 public class MouseDesireMovement extends MouseMovement {
 
 	private PriorityQueue<MouseDesire> desires;
@@ -35,6 +39,8 @@ public class MouseDesireMovement extends MouseMovement {
 		this.home = position;
 	}
 
+	// Returns the next action that the mouse must execute in order to satisfy
+	// its desires
 	public Action nextAction() {
 		turnsLeft--;
 		MouseDesire desireToAchieve = desires.peek();
@@ -48,7 +54,7 @@ public class MouseDesireMovement extends MouseMovement {
 			return desireSet(desireToAchieve);
 		} else if (desireToAchieve.getDesire().equals(Desire.WALK)) {
 			return desireWalk(desireToAchieve);
-		} else if (desireToAchieve.getDesire().equals(Desire.AVOID_PUNISHMENT)) {
+		} else if (desireToAchieve.getDesire().equals(Desire.GO_BACK_HOME)) {
 			return desireGoBackHome();
 		} else if (desireToAchieve.getDesire().equals(Desire.NOT_BREAK)) {
 			return desireNotBreak();
@@ -56,6 +62,9 @@ public class MouseDesireMovement extends MouseMovement {
 		return Action.WAIT;
 	}
 
+	// The desire with the highest weight is one of the following: CHEESE,
+	// SEE_BLUE, SEE_GREEN, SEE_RED, SEE_YELLOW. The mouse have to find where is
+	// the entity that satisfies its desire and execute the action related.
 	private Action desireSet(MouseDesire desire) {
 		Iterator<MouseDesire> it = desires.iterator();
 		ArrayList<MouseDesire> list = new ArrayList<MouseDesire>();
@@ -80,6 +89,9 @@ public class MouseDesireMovement extends MouseMovement {
 
 	}
 
+	// The desire with the highest weight is WALK. The mouse have to check if it
+	// can satisfy another desire at the same time. If it can satisfy more than
+	// one desire it will execute the corresponding action
 	private Action desireWalk(MouseDesire desire) {
 		Iterator<MouseDesire> it = desires.iterator();
 		PriorityQueue<MouseDesire> list = new PriorityQueue<MouseDesire>();
@@ -89,7 +101,7 @@ public class MouseDesireMovement extends MouseMovement {
 			Desire nextDesire = next.getDesire();
 			if ((nextDesire.equals(Desire.CHEESE) || nextDesire.equals(Desire.SEE_BLUE)
 					|| nextDesire.equals(Desire.SEE_GREEN) || nextDesire.equals(Desire.SEE_RED)
-					|| nextDesire.equals(Desire.SEE_YELLOW) || nextDesire.equals(Desire.AVOID_PUNISHMENT))
+					|| nextDesire.equals(Desire.SEE_YELLOW) || nextDesire.equals(Desire.GO_BACK_HOME))
 					&& Math.abs(desire.getWeight() - next.getWeight()) < 50)
 				list.add(next);
 			else if (next.equals(new MouseDesire(Desire.NOT_BREAK, 0))
@@ -97,7 +109,7 @@ public class MouseDesireMovement extends MouseMovement {
 				notBreak = true;
 		}
 		MouseDesire queueHead = list.peek();
-		if (queueHead != null && queueHead.getDesire().equals(Desire.AVOID_PUNISHMENT)) {
+		if (queueHead != null && queueHead.getDesire().equals(Desire.GO_BACK_HOME)) {
 			if (manhattanDistance(position, home) >= turnsLeft + 1)
 				return goHome(notBreak);
 			else {
@@ -123,8 +135,11 @@ public class MouseDesireMovement extends MouseMovement {
 			return MouseSprinter.nextAction(orientation, position, history.lastElement());
 	}
 
+	// The desire with the highest weight is GO_BACK_HOME. The mouse can satisfy
+	// other desires while the number of turns reamining are enough to arrive to
+	// the initial tile.
 	private Action desireGoBackHome() {
-		MouseDesire avoidPunishment = desires.poll();
+		MouseDesire goBackHome = desires.poll();
 		MouseDesire secondDesire = desires.peek();
 		if (secondDesire == null || secondDesire.equals(Desire.REST))
 			return Action.WAIT;
@@ -139,10 +154,10 @@ public class MouseDesireMovement extends MouseMovement {
 				if ((nextDesire.equals(Desire.CHEESE) || nextDesire.equals(Desire.SEE_BLUE)
 						|| nextDesire.equals(Desire.SEE_GREEN) || nextDesire.equals(Desire.SEE_RED)
 						|| nextDesire.equals(Desire.SEE_YELLOW))
-						&& Math.abs(avoidPunishment.getWeight() - next.getWeight()) < 50)
+						&& Math.abs(goBackHome.getWeight() - next.getWeight()) < 50)
 					list.add(next);
 				else if (next.equals(new MouseDesire(Desire.NOT_BREAK, 0))
-						&& Math.abs(avoidPunishment.getWeight() - next.getWeight()) < 50)
+						&& Math.abs(goBackHome.getWeight() - next.getWeight()) < 50)
 					notBreak = true;
 			}
 			if (manhattanDistance(position, home) >= turnsLeft + 1)
@@ -160,6 +175,9 @@ public class MouseDesireMovement extends MouseMovement {
 		}
 	}
 
+	// The desire with the highest weight is NOT_BREAK. The mouse can move over
+	// the board without breaking shojis. It will try to satisfy other desires
+	// avoiding not broken shojis.
 	private Action desireNotBreak() {
 		Iterator<MouseDesire> it = desires.iterator();
 		PriorityQueue<MouseDesire> list = new PriorityQueue<MouseDesire>();
@@ -169,13 +187,13 @@ public class MouseDesireMovement extends MouseMovement {
 			Desire nextDesire = next.getDesire();
 			if (nextDesire.equals(Desire.CHEESE) || nextDesire.equals(Desire.SEE_BLUE)
 					|| nextDesire.equals(Desire.SEE_GREEN) || nextDesire.equals(Desire.SEE_RED)
-					|| nextDesire.equals(Desire.SEE_YELLOW) || nextDesire.equals(Desire.AVOID_PUNISHMENT))
+					|| nextDesire.equals(Desire.SEE_YELLOW) || nextDesire.equals(Desire.GO_BACK_HOME))
 				list.add(next);
 			else if (next.equals(new MouseDesire(Desire.WALK, 0)))
 				walk = true;
 		}
 		MouseDesire queueHead = list.peek();
-		if (queueHead != null && queueHead.getDesire().equals(Desire.AVOID_PUNISHMENT)) {
+		if (queueHead != null && queueHead.getDesire().equals(Desire.GO_BACK_HOME)) {
 			if (manhattanDistance(position, home) >= turnsLeft + 1)
 				return goHome(true);
 			else {
@@ -197,6 +215,9 @@ public class MouseDesireMovement extends MouseMovement {
 			return Action.WAIT;
 	}
 
+	// Gets the best desire to achieve and the Tile where the action related
+	// must be performed. The possible desires are : CHEESE, SEE_BLUE,
+	// SEE_GREEN, SEE_RED, SEE_YELLOW.
 	private AbstractMap.SimpleEntry<Desire, ITile> getBestDesire(ArrayList<MouseDesire> list) {
 		// List could not be empty because we added the initial desire
 		Iterator<MouseDesire> it = list.iterator();
@@ -213,25 +234,25 @@ public class MouseDesireMovement extends MouseMovement {
 
 			else if (next.getDesire().equals(Desire.SEE_BLUE))
 				if (color.equals(MouseType.BLUE))
-					typeToSearch = EntityType.MIRROR;
+					typeToSearch = EntityType.TOY;
 				else
 					typeToSearch = EntityType.MOUSE_BLUE;
 
 			else if (next.getDesire().equals(Desire.SEE_GREEN))
 				if (color.equals(MouseType.GREEN))
-					typeToSearch = EntityType.MIRROR;
+					typeToSearch = EntityType.TOY;
 				else
 					typeToSearch = EntityType.MOUSE_GREEN;
 
 			else if (next.getDesire().equals(Desire.SEE_RED))
 				if (color.equals(MouseType.RED))
-					typeToSearch = EntityType.MIRROR;
+					typeToSearch = EntityType.TOY;
 				else
 					typeToSearch = EntityType.MOUSE_RED;
 
 			else if (next.getDesire().equals(Desire.SEE_YELLOW))
 				if (color.equals(MouseType.YELLOW))
-					typeToSearch = EntityType.MIRROR;
+					typeToSearch = EntityType.TOY;
 				else
 					typeToSearch = EntityType.MOUSE_YELLOW;
 
@@ -246,12 +267,16 @@ public class MouseDesireMovement extends MouseMovement {
 		return result;
 	}
 
+	// Get the weighted cost of a desire. This cost depends on the weight of the
+	// desire and the cost of perform the action. The cost is calculated by the
+	// distance to the tile where the mouse must perform the action.
 	private double getNextCost(int weight, int md) {
 		IBoard board = history.firstElement();
 		int maxMD = board.getWidth() + board.getHeight();
 		return (100 - weight) / 100 * 0.6 + md / maxMD * 0.4;
 	}
 
+	// Returns the nearest tile where is located the entity searched.
 	private ITile searchEntity(IBoard board, EntityType entity) {
 		ArrayList<ITile> possibleDestinations = new ArrayList<ITile>();
 		int height = board.getHeight();
@@ -280,6 +305,7 @@ public class MouseDesireMovement extends MouseMovement {
 		return finalTile;
 	}
 
+	// Returns the action related to the desire that we want to achieve
 	private Action getActionForDesire(Desire desire, ITile tile, boolean notBreak) {
 		if (manhattanDistance(position, tile) > 0) {
 			IBoard current = history.lastElement();
@@ -305,6 +331,8 @@ public class MouseDesireMovement extends MouseMovement {
 			return Action.TALK;
 	}
 
+	// When the game is about to end the mouse might want to go back to the
+	// initial tile. This method get the best action to go to the initial tile.
 	private Action goHome(boolean notBreak) {
 		ITile homeTile = history.lastElement().getTile(home);
 		if (manhattanDistance(position, home) > 0) {
@@ -343,6 +371,8 @@ public class MouseDesireMovement extends MouseMovement {
 		return Math.abs(pos1.getX() - pos2.getX()) + Math.abs(pos1.getY() - pos2.getY());
 	}
 
+	// The mouse observes an action performed. If a objective was achieved the
+	// desire must be remove from the list of desires.
 	public void observe(IBoard board, MouseType mouse, Action action, Boolean success, int go) {
 		history.add(board);
 		eventHistory.add(new Event(mouse, action, 100, success, go));

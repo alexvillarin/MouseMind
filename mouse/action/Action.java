@@ -2,11 +2,15 @@ package mouse.action;
 
 import mouse.movement.Direction;
 
+/*
+ * Actions that the mice can perform. MOVE_EAST, MOVE_NORTH, MOVE_SOUTH and MOVE_WEST are the result of
+ * applying the action MOVE to one specific direction
+ */
 public enum Action {
 	EAT, MOVE_EAST, MOVE_NORTH, MOVE_SOUTH, MOVE_WEST, TALK, WAIT;
-	
+
 	private static double elements = 4;
-	
+
 	public static Action move(Direction orientation) {
 		if (orientation.equals(Direction.EAST))
 			return MOVE_EAST;
@@ -18,7 +22,7 @@ public enum Action {
 			return MOVE_WEST;
 		return WAIT;
 	}
-	
+
 	public static Action random() {
 		double value = Math.random() * elements;
 		if (value < 1)
@@ -34,6 +38,6 @@ public enum Action {
 		if (value < 3)
 			return TALK;
 		return WAIT;
-		
+
 	}
 }

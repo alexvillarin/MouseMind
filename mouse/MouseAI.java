@@ -16,6 +16,11 @@ import questionsAndAnswers.Answer;
 import questionsAndAnswers.QuestionType;
 import questionsAndAnswers.mouse.MouseQandA;
 
+/*
+ * Implementation of the IMouseAI interface. It has two main parts. The first called MouseMovement
+ * related to mouse actions during the night, and the second one related to answer the scientist
+ * questions on the morning.
+ */
 public class MouseAI implements IMouseAI {
 	private MouseMovement movement;
 	private MouseQandA qanda;
@@ -30,28 +35,30 @@ public class MouseAI implements IMouseAI {
 		this.color = color;
 	}
 
+	/*
+	 * Method to observe the board when not action was noticed. It is used to get the initial
+	 * state of the board and when the mouse can't see the action performed.
+	 */
 	public void observe(IBoard board) {
 		movement.observe(board);
 		qanda.observe(board);
 	}
 
+	// Method to observe the state of the board after an action was performed
 	public void observe(IBoard board, MouseType mouse, Action action,
 			Boolean success, int go) {
 		movement.observe(board, mouse, action, success, go);
 		qanda.observe(board, mouse, action, success, go);
 	}
 
+	// Method to get the next action to execute
 	public Action nextAction() {
 		return movement.nextAction();
 	}
 
+	// Method to answer the questions of the scientist
 	public Answer ask(QuestionType type, Object[] args) {
-		System.out.print(type + ", ");
-		for (int i = 0; i < args.length; i++)
-			System.out.print(args[i] + ", ");
-		Answer ret = qanda.ask(type, args);
-		System.out.println(ret);
-		return ret;
+		return qanda.ask(type, args);
 	}
 	
 	public MouseType getMouse() {

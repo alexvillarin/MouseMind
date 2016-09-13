@@ -15,6 +15,10 @@ import mouse.movement.astar.AStarMovement;
 import questionsAndAnswers.Answer;
 import questionsAndAnswers.QuestionType;
 
+/*
+ * This class exnteds MouseQandA abstract class. 
+ * This AI try to avoid punishment lying about the positions visited and about the mouse who ate the cheese.
+ */
 public class IntelligentMouse extends MouseQandA {
 
 	private boolean thought;
@@ -28,6 +32,12 @@ public class IntelligentMouse extends MouseQandA {
 		thought = false;
 	}
 
+	/*
+	 * Apply some rules to complete the knowledge about where was the cheese tile,
+	 * get the mouse who ate the cheese and get the positions of the mice in
+	 * order to charge another mouse who most probably ate the cheese 
+	 */
+	
 	public void getConclusions() {
 		getCheeseTile();
 		getWhoAteCheese();
@@ -36,6 +46,7 @@ public class IntelligentMouse extends MouseQandA {
 		thought = true;
 	}
 
+	// Get the tile where the cheese was
 	private void getCheeseTile() {
 		IBoard initial = history.firstElement();
 		int height = initial.getHeight();
@@ -82,6 +93,7 @@ public class IntelligentMouse extends MouseQandA {
 		}
 	}
 
+	// Get the mouse who most probably ate the cheese
 	private void getWhoAteCheese() {
 		Iterator<Event> it = eventHistory.iterator();
 		guilty = false;
@@ -98,6 +110,7 @@ public class IntelligentMouse extends MouseQandA {
 		}
 	}
 
+	// Returns the answer to the question of the scientist
 	public Answer ask(QuestionType type, Object[] args) {
 		if (!thought)
 			getConclusions();
@@ -112,6 +125,7 @@ public class IntelligentMouse extends MouseQandA {
 			return Answer.SILENCE;
 	}
 
+	// Return the answer if the scientist is asking for the cheese
 	private Answer askForCheese(MouseType mouse) {
 		if (mouse.equals(color))
 			return Answer.NO;
@@ -125,6 +139,7 @@ public class IntelligentMouse extends MouseQandA {
 			return Answer.I_DONT_KNOW;
 	}
 
+	// Return the answer if the scientist is asking if a mouse was in a given tile
 	private Answer askForTile(MouseType mouse, ITile tile) {
 		if (mouse.equals(color)) {
 			ITile initialTile = history.lastElement().getTile(initialPosition);

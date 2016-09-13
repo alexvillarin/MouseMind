@@ -16,7 +16,7 @@ import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 import questionsAndAnswers.scientist.ScientistAI;
 
-public class MainScientistAITest1 {
+public class MainTest4 {
 
 	private static final int turnsLeft = 20;
 	private static final int mice = 4;
@@ -35,16 +35,16 @@ public class MainScientistAITest1 {
 		position[3] = new Position(9, 9);
 		MouseAI[] ai = new MouseAI[4];
 		ai[0] = new MouseAI(turnsLeft, MouseType.BLUE, position[0], Direction.NORTH, board, MovementType.DESIRE,
-				desiresBlue, QandAType.TRUE);
+				desiresBlue, QandAType.LYING);
 		ai[1] = new MouseAI(turnsLeft, MouseType.GREEN, position[1], Direction.NORTH, board, MovementType.DESIRE,
-				desiresGreen, QandAType.TRUE);
+				desiresGreen, QandAType.LYING);
 		ai[2] = new MouseAI(turnsLeft, MouseType.RED, position[2], Direction.NORTH, board, MovementType.DESIRE,
-				desiresRed, QandAType.TRUE);
+				desiresRed, QandAType.LYING);
 		ai[3] = new MouseAI(turnsLeft, MouseType.YELLOW, position[3], Direction.NORTH, board, MovementType.DESIRE,
-				desiresYellow, QandAType.TRUE);
+				desiresYellow, QandAType.LYING);
 
 		for (int j = 0; j < mice; j++)
-			ai[j].observe(board);
+			ai[j].observe(initialBoard);
 
 		for (int i = 0; i < turnsLeft; i++) {
 			System.out.println("Turno: " + (i + 1));
@@ -55,7 +55,7 @@ public class MainScientistAITest1 {
 				for (int k = 0; k < mice; k++) {
 					ai[k].observe(board, mouse, nextAction, success, i * mice + j + 1);
 				}
-				// System.out.println(mouse + ": " + nextAction);
+				System.out.println(mouse + ": " + nextAction);
 				System.out.println(mouse + ": " + position[j]);
 			}
 		}
@@ -64,13 +64,15 @@ public class MainScientistAITest1 {
 		ScientistAI scientist = new ScientistAI(initialBoard, board, ai);
 		MouseType accused = scientist.ScientistInterrogation();
 
+		System.out.print(scientist.getInterrogation());	
+		System.out.println(scientist.getDefendatMice());	
 		System.out.println("Accused: " + accused);
 	}
 
 	private static PriorityQueue<MouseDesire> initializeDesires1() {
 		MouseDesire eat = new MouseDesire(Desire.CHEESE, 100);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 90);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
 		desires.add(notBreak);
@@ -80,9 +82,9 @@ public class MainScientistAITest1 {
 
 	private static PriorityQueue<MouseDesire> initializeDesires2() {
 		MouseDesire walk = new MouseDesire(Desire.WALK, 80);
-		MouseDesire eat = new MouseDesire(Desire.SEE_BLUE, 70);
+		MouseDesire eat = new MouseDesire(Desire.CHEESE, 70);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(walk);
 		desires.add(eat);
@@ -94,7 +96,7 @@ public class MainScientistAITest1 {
 	private static PriorityQueue<MouseDesire> initializeDesires3() {
 		MouseDesire eat = new MouseDesire(Desire.CHEESE, 100);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
 		desires.add(notBreak);
@@ -105,7 +107,7 @@ public class MainScientistAITest1 {
 	private static PriorityQueue<MouseDesire> initializeDesires4() {
 		MouseDesire eat = new MouseDesire(Desire.REST, 100);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
 		desires.add(notBreak);
@@ -139,6 +141,7 @@ public class MainScientistAITest1 {
 		tiles[6][8] = new Tile(6, 8, TileType.SHOJI);
 		tiles[7][8] = new Tile(7, 8, TileType.SHOJI);
 		tiles[8][8] = new Tile(8, 8, TileType.OBSTACLE);
+		tiles[3][9] = new Tile(3, 9, TileType.SHOJI);
 
 		tiles[0][0].add(new Entity(0, 0, EntityType.MOUSE_BLUE));
 		tiles[0][9].add(new Entity(0, 9, EntityType.MOUSE_GREEN));

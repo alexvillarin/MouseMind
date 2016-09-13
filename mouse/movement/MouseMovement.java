@@ -10,7 +10,7 @@ import interfaces.MouseType;
 import mouse.action.Action;
 
 /*
- * Class that controls the movement of a mouse.
+ * Class that controls the actions that a mouse must perform.
  */
 
 public abstract class MouseMovement {
@@ -20,8 +20,7 @@ public abstract class MouseMovement {
 	protected Vector<IBoard> history;
 	protected Vector<Event> eventHistory;
 
-	public MouseMovement(IPosition position, Direction orientation,
-			MouseType color) {
+	public MouseMovement(IPosition position, Direction orientation, MouseType color) {
 		this.position = position;
 		this.orientation = orientation;
 		this.color = color;
@@ -30,19 +29,23 @@ public abstract class MouseMovement {
 	}
 
 	public abstract Action nextAction();
-	
+
+	// Return the tile on the right of the current position
 	protected static ITile east(IPosition position, IBoard board) {
 		return board.getTile(position.getX(), position.getY() + 1);
 	}
 
+	// Return the tile above the current position
 	protected static ITile north(IPosition position, IBoard board) {
 		return board.getTile(position.getX() - 1, position.getY());
 	}
 
+	// Return the tile below the current position
 	protected static ITile south(IPosition position, IBoard board) {
 		return board.getTile(position.getX() + 1, position.getY());
 	}
 
+	// Return the tile on the left of the current position
 	protected static ITile west(IPosition position, IBoard board) {
 		return board.getTile(position.getX(), position.getY() - 1);
 	}
@@ -51,8 +54,8 @@ public abstract class MouseMovement {
 		history.add(board);
 	}
 
-	public void observe(IBoard board, MouseType mouse, Action action,
-			Boolean success, int go) {
+	// The mouse observes an action performed and saves it in its memory.
+	public void observe(IBoard board, MouseType mouse, Action action, Boolean success, int go) {
 		if (success && mouse.equals(color)) {
 			if (action.equals(Action.MOVE_EAST)) {
 				position = position.east(history.lastElement());

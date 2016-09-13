@@ -3,6 +3,7 @@ package event;
 import interfaces.MouseType;
 import mouse.action.Action;
 
+// This class represents the information received by the mouse of the environment
 public class Event {
 	private MouseType mouse;
 	private Action action;

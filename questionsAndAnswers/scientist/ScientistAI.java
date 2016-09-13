@@ -17,10 +17,16 @@ import mouse.movement.astar.AStarMovement;
 import questionsAndAnswers.Answer;
 import questionsAndAnswers.QuestionType;
 
+/*
+ * Class representing the scientist mind. It implements the algoritms to carry out 
+ * the interrogation of the mice. It also save the conversation with the mice to show it
+ */
 public class ScientistAI implements IScientist {
 	private IBoard finalBoard;
 	private MouseRepresentation[] allMice;
 	private ITile cheeseTile;
+	private PriorityQueue<MouseRepresentation> defendantMice;
+	private ArrayList<String> interrogation;
 
 	public ScientistAI(IBoard initialBoard, IBoard finalBoard, MouseAI[] ai) {
 		this.finalBoard = finalBoard;
@@ -43,6 +49,9 @@ public class ScientistAI implements IScientist {
 
 			}
 		}
+
+		defendantMice = new PriorityQueue<MouseRepresentation>();
+		interrogation = new ArrayList<String>();
 	}
 
 	public MouseType ScientistInterrogation() {
@@ -52,7 +61,9 @@ public class ScientistAI implements IScientist {
 		// suspicious
 		for (MouseRepresentation mouse : allMice) {
 			Object[] params = { mouse.getMouse() };
-			if (mouse.ask(QuestionType.EAT_CHEESE, params) == Answer.YES) {
+			Answer answer = mouse.ask(QuestionType.EAT_CHEESE, params);
+			addAnswer(QuestionType.EAT_CHEESE, params, answer);
+			if (answer == Answer.YES) {
 				mouse.setSuspicious();
 				suspiciousMice.add(mouse);
 			}
@@ -74,7 +85,6 @@ public class ScientistAI implements IScientist {
 			}
 		}
 
-		PriorityQueue<MouseRepresentation> defendantMice = new PriorityQueue<MouseRepresentation>();
 		for (MouseRepresentation mouse : allMice) {
 			double charge = mouse.isSuspicious() ? mouse.getConfidence() : 0;
 			charge += (1 - getTileDistance(mouse, cheeseTile) / (width + height)) * 65
@@ -83,7 +93,6 @@ public class ScientistAI implements IScientist {
 			defendantMice.add(mouse);
 		}
 
-		System.out.println(defendantMice);
 		return defendantMice.peek().getMouse();
 	}
 
@@ -92,7 +101,9 @@ public class ScientistAI implements IScientist {
 		// We ask every mouse about the tile
 		for (MouseRepresentation mouse : allMice) {
 			Object[] params = { mouse.getMouse(), tile };
-			if (mouse.ask(QuestionType.MOUSE_IN_TILE, params) == Answer.YES) {
+			Answer answer = mouse.ask(QuestionType.MOUSE_IN_TILE, params);
+			addAnswer(QuestionType.MOUSE_IN_TILE, params, answer);
+			if (answer == Answer.YES) {
 				guiltyMouseKnown = true;
 				mouse.addTile(tile);
 			}
@@ -130,15 +141,38 @@ public class ScientistAI implements IScientist {
 		}
 	}
 
-	private double getTileDistance(MouseRepresentation mouse, ITile tile) {
-		int minDistance = MouseDesireMovement.manhattanDistance(mouse.getInitialPosition(), tile);
+	private void addAnswer(QuestionType type, Object[] params, Answer answer) {
+		String str = type + ", ";
+		for (int i = 0; i < params.length; i++)
+			str += params[i] + ", ";
+		str += answer;
+		interrogation.add(str);
+	}
+
+	// Gets the distance between a mouse and the cheese
+	private double getTileDistance(MouseRepresentation mouse, ITile cheese) {
+		int minDistance = MouseDesireMovement.manhattanDistance(mouse.getInitialPosition(), cheese);
 		Iterator<ITile> it = mouse.getTilesVisited().iterator();
 		while (it.hasNext()) {
 			ITile next = it.next();
-			int distance = AStarMovement.manhattanDistance(next, tile);
+			int distance = AStarMovement.manhattanDistance(next, cheese);
 			if (distance < minDistance)
 				minDistance = distance;
 		}
 		return minDistance;
+	}
+
+	// Return information about the interrogation
+	public String getInterrogation() {
+		Iterator<String> it = interrogation.iterator();
+		String str = it.next() + "\n";
+		while (it.hasNext())
+			str += it.next() + "\n";
+		return str;
+	}
+
+	// Return information about the probabilities of each mice to be guilty
+	public String getDefendatMice() {
+		return defendantMice.toString();
 	}
 }

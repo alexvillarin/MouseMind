@@ -4,7 +4,10 @@ import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
 
-// A example implementation for testing purposes of the interface IBoard
+/*
+ * A example implementation for testing purposes of the interface IBoard
+ * The board size is 10x10 and has only one cheese
+ */
 public class Board implements IBoard {
 	private ITile[][] board;
 	private boolean cheese = true;

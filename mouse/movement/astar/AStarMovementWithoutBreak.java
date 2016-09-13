@@ -10,10 +10,12 @@ import interfaces.IBoard;
 import interfaces.IPosition;
 import interfaces.ITile;
 import interfaces.TileType;
-import mouse.desire.Desire;
-import mouse.desire.MouseDesire;
 import mouse.movement.SortedMapSimpleEntry;
 
+/*
+ * Implementation of A* algorithm. This implementation search the shortest path between two tiles 
+ * avoiding not broken shojis.
+ */
 public class AStarMovementWithoutBreak {
 
 	public static ArrayList<ITile> AStarSearch(ITile position, ITile target, IBoard board) {
@@ -71,6 +73,8 @@ public class AStarMovementWithoutBreak {
 		return null;
 	}
 
+	// Calculate the cost of moving to a specific tile that is a neighbour of
+	// the current tile
 	private static int moveToNeighbour(ITile neighbour, int boardSize) {
 		if (neighbour.getType().equals(TileType.OBSTACLE))
 			return 2 * boardSize;
@@ -80,11 +84,14 @@ public class AStarMovementWithoutBreak {
 			return 1;
 	}
 
+	// Returns the manhattan distance between two tiles
 	public static int manhattanDistance(ITile position, ITile target) {
 		return Math.abs(position.getPosition().getX() - target.getPosition().getX())
 				+ Math.abs(position.getPosition().getY() - target.getPosition().getY());
 	}
 
+	// Creates an ArrayList object with the path that goes from the initial tile
+	// to the goal tile
 	private static ArrayList<ITile> getPath(Hashtable<ITile, ITile> cameFrom, ITile current) {
 		ArrayList<ITile> total_path = new ArrayList<ITile>();
 		total_path.add(current);
@@ -137,11 +144,5 @@ public class AStarMovementWithoutBreak {
 		System.out.println();
 		while (!copy.isEmpty())
 			fScore.add(copy.remove());
-	}
-
-	// Removes the Not Breaking Shojis desire
-	public static PriorityQueue<MouseDesire> deleteNotBreak(PriorityQueue<MouseDesire> desires) {
-		desires.remove(new MouseDesire(Desire.NOT_BREAK, 0));
-		return desires;
 	}
 }

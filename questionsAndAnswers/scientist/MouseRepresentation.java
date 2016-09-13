@@ -8,9 +8,14 @@ import mouse.MouseAI;
 import questionsAndAnswers.Answer;
 import questionsAndAnswers.QuestionType;
 
+/*
+ * Internal representation of a mouse guilt in the scientist AI.
+ * It includes information about the confidence and the tiles that the mouse visited.
+ */
 public class MouseRepresentation implements Comparable<MouseRepresentation> {
 	private MouseAI mouseAI;
 	private double confidence;
+	// The confidence in a mouse decreases faster that it increases
 	private static final double increaseFactor = 1.1;
 	private static final double reduceFactor = 0.8;
 	private ArrayList<ITile> tilesVisited;

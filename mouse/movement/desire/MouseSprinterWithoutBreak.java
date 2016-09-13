@@ -13,6 +13,11 @@ import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 import mouse.movement.MouseDesireMovement;
 
+/*
+ * Class that controls the movement of a mouse. The mouse always walks trying to keep its direction.
+ * If the tile in front of the mouse is an obstacle it will change its direction. 
+ * Not broken shojis are considered like obstacles.
+ */
 public class MouseSprinterWithoutBreak extends MouseDesireMovement {
 
 	public MouseSprinterWithoutBreak(PriorityQueue<MouseDesire> desires, IPosition position, Direction orientation,

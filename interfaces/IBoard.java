@@ -1,5 +1,6 @@
 package interfaces;
 
+// Interface of the board where the game take place
 public interface IBoard {
 
 	public ITile getTile(int x, int y);

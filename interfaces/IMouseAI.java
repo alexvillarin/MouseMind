@@ -4,6 +4,10 @@ import mouse.action.Action;
 import questionsAndAnswers.Answer;
 import questionsAndAnswers.QuestionType;
 
+/* 
+ * Interface that the AI of the mouse must fulfill. This interface contains the methods required
+ * to get the environments changes, execute actions and answer questions 
+ */
 public interface IMouseAI {
 	public void observe(IBoard board);
 

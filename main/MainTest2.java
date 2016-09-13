@@ -16,7 +16,12 @@ import mouse.desire.MouseDesire;
 import mouse.movement.Direction;
 import questionsAndAnswers.scientist.ScientistAI;
 
-public class MainScientistAITest2 {
+/*
+ * This class implements the second test executed. It is a 10x10 board with a cheese in the tile (4,4)
+ * and 4 mice [(0,0), (0,9), (9,0), (9,9)]. Three of the mice want to eat the cheese. This test is like 
+ * test one but it has more shojis
+ */
+public class MainTest2 {
 
 	private static final int turnsLeft = 20;
 	private static final int mice = 4;
@@ -60,17 +65,18 @@ public class MainScientistAITest2 {
 			}
 		}
 
-		// New from MainMouseMovement
 		ScientistAI scientist = new ScientistAI(initialBoard, board, ai);
 		MouseType accused = scientist.ScientistInterrogation();
 
+		System.out.print(scientist.getInterrogation());	
+		System.out.println(scientist.getDefendatMice());	
 		System.out.println("Accused: " + accused);
 	}
 
 	private static PriorityQueue<MouseDesire> initializeDesires1() {
 		MouseDesire eat = new MouseDesire(Desire.CHEESE, 100);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 90);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
 		desires.add(notBreak);
@@ -82,7 +88,7 @@ public class MainScientistAITest2 {
 		MouseDesire walk = new MouseDesire(Desire.WALK, 80);
 		MouseDesire eat = new MouseDesire(Desire.SEE_BLUE, 70);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(walk);
 		desires.add(eat);
@@ -94,7 +100,7 @@ public class MainScientistAITest2 {
 	private static PriorityQueue<MouseDesire> initializeDesires3() {
 		MouseDesire eat = new MouseDesire(Desire.CHEESE, 100);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
 		desires.add(notBreak);
@@ -105,7 +111,7 @@ public class MainScientistAITest2 {
 	private static PriorityQueue<MouseDesire> initializeDesires4() {
 		MouseDesire eat = new MouseDesire(Desire.REST, 100);
 		MouseDesire notBreak = new MouseDesire(Desire.NOT_BREAK, 70);
-		MouseDesire avoidPunishment = new MouseDesire(Desire.AVOID_PUNISHMENT, 10);
+		MouseDesire avoidPunishment = new MouseDesire(Desire.GO_BACK_HOME, 10);
 		PriorityQueue<MouseDesire> desires = new PriorityQueue<MouseDesire>();
 		desires.add(eat);
 		desires.add(notBreak);

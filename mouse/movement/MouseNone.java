@@ -6,7 +6,8 @@ import interfaces.MouseType;
 import mouse.action.Action;
 
 /*
- * Class that controls the movement of a mouse. the mouse waits always.
+ * Class that extends the abstract class MouseMovement, which controls the actions of a mouse.
+ * The mouse performs always the action WAIT.
  */
 
 public class MouseNone extends MouseMovement {
